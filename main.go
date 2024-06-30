@@ -47,7 +47,10 @@ func main() {
 			fmt.Printf("  HTTP request failed: %v\n", err)
 		} else {
 			fmt.Printf("  HTTP status code: %d\n", resp.StatusCode)
-			resp.Body.Close()
+			err := resp.Body.Close()
+			if err != nil {
+				return
+			}
 		}
 
 		// Add more checks here (e.g., WHOIS lookup, MX records, etc.)
