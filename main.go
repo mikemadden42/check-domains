@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -18,6 +19,9 @@ func main() {
 		fmt.Printf("Error reading domains: %v\n", err)
 		return
 	}
+
+	// HTTP client with a timeout so a slow host can't hang the run
+	client := &http.Client{Timeout: 10 * time.Second}
 
 	// Loop through each domain
 	for _, domain := range domains {
@@ -42,14 +46,13 @@ func main() {
 		}
 
 		// HTTP request
-		resp, err := http.Get("http://" + domain)
+		resp, err := client.Get("http://" + domain)
 		if err != nil {
 			fmt.Printf("  HTTP request failed: %v\n", err)
 		} else {
 			fmt.Printf("  HTTP status code: %d\n", resp.StatusCode)
-			err := resp.Body.Close()
-			if err != nil {
-				return
+			if err := resp.Body.Close(); err != nil {
+				fmt.Printf("  Closing response body failed: %v\n", err)
 			}
 		}
 
