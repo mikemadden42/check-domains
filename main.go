@@ -1,9 +1,11 @@
-// Command check-domains resolves each domain listed in domains.txt and
-// reports its IP addresses and HTTP status code.
+// Command check-domains resolves each domain listed in a file (domains.txt
+// by default, or the path given with -f) and reports its IP addresses and
+// HTTP status code.
 package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"net"
 	"net/http"
@@ -13,11 +15,12 @@ import (
 )
 
 func main() {
-	// Specify the file path here
-	filePath := "domains.txt"
+	// File of domains to check, one per line
+	filePath := flag.String("f", "domains.txt", "file of domains to check, one per line")
+	flag.Parse()
 
 	// Read domain names from file
-	domains, err := readDomains(filePath)
+	domains, err := readDomains(*filePath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error reading domains: %v\n", err)
 		os.Exit(1)
@@ -74,16 +77,16 @@ func main() {
 }
 
 func readDomains(filePath string) ([]string, error) {
-	data, err := os.ReadFile(filePath) //nolint:gosec // G304: reading the user's own domain list is the point
+	data, err := os.ReadFile(filePath) //nolint:gosec // G304: the path comes from the user's -f flag by design
 	if err != nil {
 		return nil, err
 	}
 
-	// Split lines, trim whitespaces, and filter empty strings
+	// Split lines, trim whitespaces, and filter empty strings and # comments
 	var domains []string
 	for _, line := range strings.Split(string(data), "\n") {
 		trimmedLine := strings.TrimSpace(line)
-		if trimmedLine != "" {
+		if trimmedLine != "" && !strings.HasPrefix(trimmedLine, "#") {
 			domains = append(domains, trimmedLine)
 		}
 	}

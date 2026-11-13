@@ -31,10 +31,10 @@ Findings from a project review (2026-11-12), in priority order.
 
 ## Usability
 
-- [ ] Take the domains file as a flag/argument (and maybe stdin) instead of hardcoding `domains.txt`.
+- [x] Take the domains file as a flag/argument (and maybe stdin) instead of hardcoding `domains.txt`.
 - [ ] Check domains concurrently with a small worker pool.
-- [ ] Skip `#` comment lines in `readDomains`.
-- [ ] Replace stale sample entry `bard.google.com` in `domains.txt`.
+- [x] Skip `#` comment lines in `readDomains`.
+- [x] Replace stale sample entry `bard.google.com` in `domains.txt`.
 
 ## CI and tests
 
