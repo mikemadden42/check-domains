@@ -32,7 +32,7 @@ Findings from a project review (2026-11-12), in priority order.
 ## Usability
 
 - [x] Take the domains file as a flag/argument (and maybe stdin) instead of hardcoding `domains.txt`.
-- [ ] Check domains concurrently with a small worker pool.
+- [x] Check domains concurrently with a small worker pool.
 - [x] Skip `#` comment lines in `readDomains`.
 - [x] Replace stale sample entry `bard.google.com` in `domains.txt`.
 
@@ -40,7 +40,7 @@ Findings from a project review (2026-11-12), in priority order.
 
 - [x] Bump `go.mod` from `go 1.21` to a supported version; test the current two releases in CI (`stable`/`oldstable` or `go-version-file: go.mod`) instead of 1.23–1.25.
 - [x] Add tests for `readDomains` (blank lines, whitespace, CRLF, comments).
-- [ ] Split the per-domain check into a function taking a resolver/HTTP client so it can be tested without the network.
+- [x] Split the per-domain check into a function taking a resolver/HTTP client so it can be tested without the network.
 - [x] Run the linter in CI with `golangci/golangci-lint-action`.
 - [x] Bump `actions/checkout` and `actions/setup-go` (now v7).
 - [ ] Consider Dependabot for GitHub Actions.
