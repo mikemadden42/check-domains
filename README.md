@@ -5,9 +5,17 @@ Check a list of domains from the command line. For each domain, `check-domains`:
 1. Resolves it with DNS and lists its IP addresses.
 2. Sends an HTTP request to `http://<domain>` and reports the status code.
 
-## Build
+## Install
 
 Requires Go 1.26 or later.
+
+```sh
+go install github.com/mikemadden42/check-domains@latest
+```
+
+This puts `check-domains` in `$(go env GOPATH)/bin`.
+
+Or build from source:
 
 ```sh
 git clone https://github.com/mikemadden42/check-domains.git
