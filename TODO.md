@@ -6,12 +6,12 @@ Findings from a project review (2026-11-12), in priority order.
 
 - [x] **Early exit on body close error** (`main.go:50-53`): `return` from `main` skips all remaining domains silently with exit code 0. Log the error and `continue` instead.
 - [x] **No HTTP timeout** (`main.go:45`): `http.Get` uses the default client, which never times out. Use `&http.Client{Timeout: 10 * time.Second}`.
-- [ ] **Error-string matching for NXDOMAIN** (`main.go:30`): fragile across resolvers and OSes. Use the typed error:
+- [x] **Error-string matching for NXDOMAIN** (`main.go:30`): fragile across resolvers and OSes. Use the typed error:
   ```go
   var dnsErr *net.DNSError
   if errors.As(err, &dnsErr) && dnsErr.IsNotFound { ... }
   ```
-- [ ] **Exit code is always 0** (`main.go:17-20`): print errors to stderr and `os.Exit(1)` on failure to read the file (and optionally if any domain fails).
+- [x] **Exit code is always 0** (`main.go:17-20`): print errors to stderr and `os.Exit(1)` on failure to read the file (and optionally if any domain fails).
 - [ ] **Only plain HTTP is checked** (`main.go:45`): redirects are followed, so the reported status is the final hop's. Consider adding an `https://` check or reporting the redirect chain.
 
 ## Config: lint and release are broken
