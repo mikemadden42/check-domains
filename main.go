@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/http"
@@ -16,12 +17,15 @@ func main() {
 	// Read domain names from file
 	domains, err := readDomains(filePath)
 	if err != nil {
-		fmt.Printf("Error reading domains: %v\n", err)
-		return
+		fmt.Fprintf(os.Stderr, "Error reading domains: %v\n", err)
+		os.Exit(1)
 	}
 
 	// HTTP client with a timeout so a slow host can't hang the run
 	client := &http.Client{Timeout: 10 * time.Second}
+
+	// Track whether any check failed so the exit code reflects it
+	failed := false
 
 	// Loop through each domain
 	for _, domain := range domains {
@@ -31,11 +35,13 @@ func main() {
 		addresses, err := net.LookupHost(domain)
 		if err != nil {
 			// Handle missing domain gracefully
-			if strings.HasPrefix(err.Error(), "lookup ") && strings.Contains(err.Error(), ": no such host") {
+			var dnsErr *net.DNSError
+			if errors.As(err, &dnsErr) && dnsErr.IsNotFound {
 				fmt.Printf("  Domain does not exist: %s\n", domain)
 			} else {
 				fmt.Printf("  DNS lookup failed: %v\n", err)
 			}
+			failed = true
 			continue // Skip to the next domain
 		}
 
@@ -49,6 +55,7 @@ func main() {
 		resp, err := client.Get("http://" + domain)
 		if err != nil {
 			fmt.Printf("  HTTP request failed: %v\n", err)
+			failed = true
 		} else {
 			fmt.Printf("  HTTP status code: %d\n", resp.StatusCode)
 			if err := resp.Body.Close(); err != nil {
@@ -57,6 +64,10 @@ func main() {
 		}
 
 		// Add more checks here (e.g., WHOIS lookup, MX records, etc.)
+	}
+
+	if failed {
+		os.Exit(1)
 	}
 }
 
