@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # The module has no Go dependencies, so only GitHub Actions are tracked
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      # One PR per month for all action updates
+      actions:
+        patterns:
+          - "*"

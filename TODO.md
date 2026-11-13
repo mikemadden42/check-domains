@@ -43,9 +43,9 @@ Findings from a project review (2026-11-12), in priority order.
 - [x] Split the per-domain check into a function taking a resolver/HTTP client so it can be tested without the network.
 - [x] Run the linter in CI with `golangci/golangci-lint-action`.
 - [x] Bump `actions/checkout` and `actions/setup-go` (now v7).
-- [ ] Consider Dependabot for GitHub Actions.
+- [x] Consider Dependabot for GitHub Actions.
 
 ## Minor
 
-- [ ] Expand the README with usage and input format.
+- [x] Expand the README with usage and input format.
 - [x] Add a `test` target to the Makefile.
