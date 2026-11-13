@@ -1,3 +1,5 @@
+// Command check-domains resolves each domain listed in domains.txt and
+// reports its IP addresses and HTTP status code.
 package main
 
 import (
@@ -72,7 +74,7 @@ func main() {
 }
 
 func readDomains(filePath string) ([]string, error) {
-	data, err := os.ReadFile(filePath)
+	data, err := os.ReadFile(filePath) //nolint:gosec // G304: reading the user's own domain list is the point
 	if err != nil {
 		return nil, err
 	}

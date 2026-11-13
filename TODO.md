@@ -16,15 +16,15 @@ Findings from a project review (2026-11-12), in priority order.
 
 ## Config: lint and release are broken
 
-- [ ] **Fix `.golangci.yml`** (fails `golangci-lint config verify` on v2.15). Or run `golangci-lint migrate`.
+- [x] **Fix `.golangci.yml`** (fails `golangci-lint config verify` on v2.15). Or run `golangci-lint migrate`.
   - `version: 2` should be `version: "2"`
   - `disable-all: true` should be `default: none`
   - `linters-settings` should move under `linters.settings`, with goimports settings under `formatters.settings`
   - `issues.exclude-dirs` should be `linters.exclusions.paths`
-- [ ] **Resolve the 2 lint issues:**
+- [x] **Resolve the 2 lint issues:**
   - G304 at `main.go:61`: annotate with `//nolint:gosec` and a reason once the path comes from user input
   - Add a package comment (`// Command check-domains ...`)
-- [ ] **Fix `.goreleaser.yaml`** (fails `goreleaser check`):
+- [x] **Fix `.goreleaser.yaml`** (fails `goreleaser check`):
   - Add `version: 2`
   - `snapshot.name_template` should be `snapshot.version_template`
   - Drop the no-op `go generate ./...` hook
