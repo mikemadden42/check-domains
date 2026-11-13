@@ -26,3 +26,19 @@ jobs:
       run: go build -v ./...
     - name: Test
       run: go test -v ./...
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+    - name: Install Go
+      uses: actions/setup-go@v7
+      with:
+        go-version: stable
+        cache: false
+    - name: Lint
+      uses: golangci/golangci-lint-action@v9
+      with:
+        # Pin the linter so new releases don't break CI unexpectedly
+        version: v2.15
