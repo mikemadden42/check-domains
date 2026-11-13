@@ -7,4 +7,7 @@ check:
 release:
 	goreleaser release --snapshot --clean
 
-.PHONY: build check release
+test:
+	go test ./...
+
+.PHONY: build check release test

@@ -39,12 +39,13 @@ Findings from a project review (2026-11-12), in priority order.
 ## CI and tests
 
 - [x] Bump `go.mod` from `go 1.21` to a supported version; test the current two releases in CI (`stable`/`oldstable` or `go-version-file: go.mod`) instead of 1.23–1.25.
-- [ ] Add tests: `readDomains` (blank lines, whitespace, CRLF); split the per-domain check into a function taking a resolver/HTTP client so it can be tested without the network.
-- [ ] Run the linter in CI with `golangci/golangci-lint-action`.
+- [x] Add tests for `readDomains` (blank lines, whitespace, CRLF, comments).
+- [ ] Split the per-domain check into a function taking a resolver/HTTP client so it can be tested without the network.
+- [x] Run the linter in CI with `golangci/golangci-lint-action`.
 - [x] Bump `actions/checkout` and `actions/setup-go` (now v7).
 - [ ] Consider Dependabot for GitHub Actions.
 
 ## Minor
 
 - [ ] Expand the README with usage and input format.
-- [ ] Add a `test` target to the Makefile.
+- [x] Add a `test` target to the Makefile.
